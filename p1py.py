@@ -4,16 +4,19 @@ import json
 c = Cricbuzz()
 matches = c.matches()
 # print(json.dumps(matches,indent=4))
-eyed=matches[0]["id"]
+livematchesinfo=list()
+for i in range(len(matches)):
+    eyed=matches[i]["id"]
+    info=c.livescore(eyed)
+    livematchesinfo.append(info)
 # def live_score(eyed):
-data = c.livescore(eyed)
 
 
 resp = {
 "Response":200,
 "msg" : "Hello",
-"Data": data,
-"match":matches
+"livematchesinfo": livematchesinfo,
+"livematches":matches
 
 }
 print(json.dumps(resp,indent=4))
