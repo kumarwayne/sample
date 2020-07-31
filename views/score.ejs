@@ -1,0 +1,18 @@
+<%-include("header")-%>
+<div class="" style="padding:0 100px 0">
+  <h4><%=srs1%>(<%=mnum1%>)</h4><br>
+  <h1 style="color:brown"><%=battingteam1%>  <em><%=runs1%>/<%=wkt1%></em> </h1><br>
+  <h3><%=bat1%>* <%=bat1r%>(<%=bat1b%>) <%=bat1f%>(fours) <%=bat1s%>(six)</h3>
+  <h3><%=bat2%> <%=bat2r%>(<%=bat2b%>) <%=bat2f%>(fours) <%=bat2s%>(six)</h3>
+  <h6><%=status1%></h6>
+</div>
+<section class="form">
+    <form action="/action_page.php">
+    <div class="form-group">
+      <label for="text">Comment :</label>
+      <input type="text" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-dark btn-md ">Submit</button>
+  </form>
+</section>
+<%-include("footer")-%>
