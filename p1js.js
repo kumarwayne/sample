@@ -1,6 +1,6 @@
 // The path to your python script
 var myPythonScript = "p1py.py";
-// Provide the path of the python executable, if python is available as environment variable then you can use only "python"
+// Provide the path of the python executable
 var pythonExecutable = "python.exe";
 
 // Function to convert an Uint8Array to a string
@@ -78,7 +78,7 @@ app.get("/",function(req,res){
 
     // Handle error output
     scriptExecution.stderr.on('data', (data) => {
-        // As said before, convert the Uint8Array to a readable string.
+        //  convert the Uint8Array to a readable string.
         console.log(uint8arrayToString(data));
     });
 
@@ -148,7 +148,7 @@ res.render("score",{scoreinfo:scoreinfo})
 
    })
    scriptExecution.stderr.on('data', (data) => {
-       // As said before, convert the Uint8Array to a readable string.
+       //  convert the Uint8Array to a readable string.
        console.log(uint8arrayToString(data));
    });
 
