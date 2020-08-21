@@ -4,9 +4,9 @@ var myPythonScript = "p1py.py";
 var pythonExecutable = "python.exe";
 
 // Function to convert an Uint8Array to a string
-// var uint8arrayToString = function(data){
-//     return String.fromCharCode.apply(null, data);
-// };
+var uint8arrayToString = function(data){
+    return String.fromCharCode.apply(null, data);
+};
 const express = require("express")
 const bodyParser = require("body-parser")
 const spawn = require('child_process').spawn;
@@ -21,7 +21,7 @@ app.use(express.static("public"));
 
 
 
-    app.get("/",function(req,res){
+app.get("/",function(req,res){
 
       const scriptExecution = spawn(pythonExecutable, [myPythonScript]);
       // Handle normal output
@@ -33,34 +33,40 @@ app.use(express.static("public"));
           // console.log(p.livematchesinfo[1].batting)
           nom=p.livematchesinfo.length
           console.log(nom)
+          // console.log(p.livematches)
+          // console.log(p.livematchesinfo[0].batting)
 
           for(i=0;i<=nom-1;i++)
           {
-            const noi1=p.livematchesinfo[i].batting.score.length
+            try{const noi1=p.livematchesinfo[i].batting.score.length
               const infoo = {
-
+              m : i,
+              choice :'1',
               battingteam1:p.livematchesinfo[i].batting.team,
+              bowlingteam1:p.livematchesinfo[i].bowling.team,
               srs1 :p.livematches[i].srs,
               mnum1:p.livematches[i].mnum,
               status1: p.livematches[i].status,
               runs1:p.livematchesinfo[i].batting.score[noi1-1].runs,
-              wkt1:p.livematchesinfo[i].batting.score[noi1-1].wickets
+              wkt1:p.livematchesinfo[i].batting.score[noi1-1].wickets,
+              overs:p.livematchesinfo[i].batting.score[noi1-1].overs
               }
               arr.push(infoo)
+            }
+            catch(err){
+              const infoo = {
 
+              choice :'2',
+              srs1 :p.livematches[i].srs,
+              mnum1:p.livematches[i].mnum,
+              status1: p.livematches[i].status,
+
+
+              }
+              arr.push(infoo)
+            }
 
           }
-          console.log(arr)
-
-
-          // noi2=p.livematchesinfo[1].batting.score.length
-          // const battingteam2=p.livematchesinfo[1].batting.team
-          // const srs2 =p.livematches[1].srs
-          // const mnum2=p.livematches[1].mnum
-          // const status2 = p.livematches[1].status
-          // const runs2=p.livematchesinfo[1].batting.score[noi2-1].runs
-          // const wkt2=p.livematchesinfo[1].batting.score[noi2-1].wickets
-    // ,runs2:runs2,wkt2:wkt2,srs2:srs2,mnum2:mnum2,status2:status2,battingteam2:battingteam2
 
 
 
@@ -81,43 +87,51 @@ app.use(express.static("public"));
     });
   })
 
-  app.get("/live",function(req,res){
 
+
+
+
+
+app.get("/match/:matchno",function(req,res){
+    var an = req.params.matchno
+    console.log(an)
     const scriptExecution = spawn(pythonExecutable, [myPythonScript]);
     // Handle normal output
     scriptExecution.stdout.on('data', (data) => {
 
     const p = JSON.parse(data);
+    // console.log(p.livematchesinfo)
+    // console.log(p.livematches)
 
-    noi1=p.livematchesinfo[0].batting.score.length
+    noi1=p.livematchesinfo[an].batting.score.length
+
+    const scoreinfo={
+       battingteam1:p.livematchesinfo[an].batting.team,
+       srs1 :p.livematches[an].srs,
+       mnum1:p.livematches[an].mnum,
+       status1 : p.livematches[an].status,
+       runs1:p.livematchesinfo[an].batting.score[noi1-1].runs,
+       wkt1:p.livematchesinfo[an].batting.score[noi1-1].wickets,
 
 
-    const battingteam1=p.livematchesinfo[0].batting.team
-    const srs1 =p.livematches[0].srs
-    const mnum1=p.livematches[0].mnum
-    const status1 = p.livematches[0].status
-    const runs1=p.livematchesinfo[0].batting.score[noi1-1].runs
-    const wkt1=p.livematchesinfo[0].batting.score[noi1-1].wickets
+       noofinning:p.livematchesinfo[an].batting.score[noi1-1].inning_num,
+  // print("(",noofinning,"Inning )")
+  // print(battingteam,runs,"/",wkt)
+  // print("\n")
+       bat1:p.livematchesinfo[an].batting.batsman[0].name,
+       bat1r:p.livematchesinfo[an].batting.batsman[0].runs,
+       bat1b:p.livematchesinfo[an].batting.batsman[0].balls,
+       bat1f:p.livematchesinfo[an].batting.batsman[0].fours,
+       bat1s:p.livematchesinfo[an].batting.batsman[0].six,
+       bat2:p.livematchesinfo[an].batting.batsman[1].name,
+       bat2r:p.livematchesinfo[an].batting.batsman[1].runs,
+       bat2b:p.livematchesinfo[an].batting.batsman[1].balls,
+       bat2f:p.livematchesinfo[an].batting.batsman[1].fours,
+       bat2s:p.livematchesinfo[an].batting.batsman[1].six
+    }
 
 
-noofinning=p.livematchesinfo[0].batting.score[noi1-1].inning_num
-runs=p.livematchesinfo[0].batting.score[noi1-1].runs
-wkt=p.livematchesinfo[0].batting.score[noi1-1].wickets
-// print("(",noofinning,"Inning )")
-// print(battingteam,runs,"/",wkt)
-// print("\n")
-bat1=p.livematchesinfo[0].batting.batsman[0].name
-bat1r=p.livematchesinfo[0].batting.batsman[0].runs
-bat1b=p.livematchesinfo[0].batting.batsman[0].balls
-bat1f=p.livematchesinfo[0].batting.batsman[0].fours
-bat1s=p.livematchesinfo[0].batting.batsman[0].six
-bat2=p.livematchesinfo[0].batting.batsman[1].name
-bat2r=p.livematchesinfo[0].batting.batsman[1].runs
-bat2b=p.livematchesinfo[0].batting.batsman[1].balls
-bat2f=p.livematchesinfo[0].batting.batsman[1].fours
-bat2s=p.livematchesinfo[0].batting.batsman[1].six
-
-res.render("score",{runs1:runs1,wkt1:wkt1,srs1:srs1,mnum1:mnum1,status1:status1,battingteam1:battingteam1,bat1:bat1,bat1r:bat1r,bat1b:bat1b,bat1f:bat1f,bat1s:bat1s,bat2:bat2,bat2r:bat2r,bat2b:bat2b,bat2f:bat2f,bat2s:bat2s})
+res.render("score",{scoreinfo:scoreinfo})
 
 
 
@@ -148,7 +162,13 @@ res.render("score",{runs1:runs1,wkt1:wkt1,srs1:srs1,mnum1:mnum1,status1:status1,
 
 
 
+app.post("/",function(req,res){
 
+   console.log(req.body.match)
+
+
+
+})
 
 
 
@@ -156,5 +176,5 @@ res.render("score",{runs1:runs1,wkt1:wkt1,srs1:srs1,mnum1:mnum1,status1:status1,
 
 
     app.listen(3000,function(req,res){
-      console.log("Server chalu ho gya hai")
+      console.log("Server started")
     });

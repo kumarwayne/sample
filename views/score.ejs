@@ -1,10 +1,10 @@
 <%-include("header")-%>
 <div class="" style="padding:0 100px 0">
-  <h4><%=srs1%>(<%=mnum1%>)</h4><br>
-  <h1 style="color:brown"><%=battingteam1%>  <em><%=runs1%>/<%=wkt1%></em> </h1><br>
-  <h3><%=bat1%>* <%=bat1r%>(<%=bat1b%>) <%=bat1f%>(fours) <%=bat1s%>(six)</h3>
-  <h3><%=bat2%> <%=bat2r%>(<%=bat2b%>) <%=bat2f%>(fours) <%=bat2s%>(six)</h3>
-  <h6><%=status1%></h6>
+  <h4><%=scoreinfo.srs1%>(<%=scoreinfo.mnum1%>)</h4><br>
+  <h1 style="color:brown"><%=scoreinfo.battingteam1%>  <em><%=scoreinfo.runs1%>/<%=scoreinfo.wkt1%></em> </h1><br>
+  <h3><%=scoreinfo.bat1%>*      <%=scoreinfo.bat1r%>(<%=scoreinfo.bat1b%>)       <%=scoreinfo.bat1f%>(4's) <%=scoreinfo.bat1s%>(6's)</h3>
+  <h3><%=scoreinfo.bat2%>       <%=scoreinfo.bat2r%>(<%=scoreinfo.bat2b%>)       <%=scoreinfo.bat2f%>(4's) <%=scoreinfo.bat2s%>(6's)</h3>
+  <h6><%=scoreinfo.status1%></h6>
 </div>
 <section class="form">
     <form action="/action_page.php">
@@ -15,4 +15,5 @@
     <button type="submit" class="btn btn-dark btn-md ">Submit</button>
   </form>
 </section>
+
 <%-include("footer")-%>
